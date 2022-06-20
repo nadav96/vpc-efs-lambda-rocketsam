@@ -1,6 +1,8 @@
 # DI:
 
 import json
+import os
+import time
 
 
 def create_response(body, code=200):
@@ -11,6 +13,13 @@ def create_response(body, code=200):
 
 
 def handler(event, context):
+    try:
+        with open("/mnt/efs/{}.txt".format(int(time.time())), "w") as fw:
+            fw.write("hello world")
+    except Exception as e:
+        return create_response({
+            "e": e
+        })
     return create_response({
-        "result": 1
+        "files": os.listdir("/mnt/efs")
     })

@@ -4,33 +4,36 @@ Environment:
   Variables:
     demo: 1
 Runtime: python3.7
-Properties:
-  VpcConfig:
-    SecurityGroupIds:
-      Fn::GetAtt: MountTargetVPC.DefaultSecurityGroup
-    SubnetIds: 
-      Ref: MountTargetSubnetOne
-  FileSystemConfigs:
+VpcConfig:
+  SecurityGroupIds:
+    - Fn::GetAtt: MountTargetVPC.DefaultSecurityGroup
+  SubnetIds:
+    - Ref: MountTargetSubnetOne
+FileSystemConfigs:
   - Arn:
-    Fn::GetAtt: AccessPointResource.Arn
+      Fn::GetAtt: AccessPointResource.Arn
     LocalMountPath: /mnt/efs
-  Policies:
+Policies:
   - Statement:
-    - Sid: AWSLambdaVPCAccessExecutionRole
-      Effect: Allow
-      Action:
-        - logs:CreateLogGroup
-        - logs:CreateLogStream
-        - logs:PutLogEvents
-        - ec2:CreateNetworkInterface
-        - ec2:DescribeNetworkInterfaces
-        - ec2:DeleteNetworkInterface
-      Resource: "*"
-    - Sid: AmazonElasticFileSystemClientFullAccess
-      Effect: Allow
-      Action:
-        - elasticfilesystem:ClientMount
-        - elasticfilesystem:ClientRootAccess
-        - elasticfilesystem:ClientWrite
-        - elasticfilesystem:DescribeMountTargets
-      Resource: "*"    
+      - Sid: AWSLambdaVPCAccessExecutionRole
+        Effect: Allow
+        Action:
+          - logs:CreateLogGroup
+          - logs:CreateLogStream
+          - logs:PutLogEvents
+          - ec2:CreateNetworkInterface
+          - ec2:DescribeNetworkInterfaces
+          - ec2:DeleteNetworkInterface
+        Resource: '*'
+      - Sid: AmazonElasticFileSystemClientFullAccess
+        Effect: Allow
+        Action:
+          - elasticfilesystem:ClientMount
+          - elasticfilesystem:ClientRootAccess
+          - elasticfilesystem:ClientWrite
+          - elasticfilesystem:DescribeMountTargets
+        Resource: '*'
+SammyApiEvent:
+  authorizerName: null
+  path: /HelloWorld
+  method: get

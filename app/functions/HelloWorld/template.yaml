@@ -33,6 +33,11 @@ Policies:
           - elasticfilesystem:ClientWrite
           - elasticfilesystem:DescribeMountTargets
         Resource: '*'
+Tags:
+  # SUPER IMPORTANT, THIS FORCE CREATION ORDER 
+  # (MountTargetResource1 => HelloWorldFunction)
+  mountTargetKey:
+    Ref: MountTargetResource1
 SammyApiEvent:
   authorizerName: null
   path: /HelloWorld
